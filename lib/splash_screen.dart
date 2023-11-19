@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:news_app/Bottom%20nav/home.dart';
+import 'package:news_app/home_screen.dart';
 class Splash_Screen extends StatefulWidget {
   const Splash_Screen({super.key});
 
@@ -15,8 +16,8 @@ class _Splash_ScreenState extends State<Splash_Screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 30000), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> home(),
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> home_page(),
       ));
     });
   }
@@ -25,12 +26,12 @@ class _Splash_ScreenState extends State<Splash_Screen> {
     return Scaffold(
       body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image(image: AssetImage('assets/play_store_512.png'),height: 100,),
+          Container(height:300,decoration: BoxDecoration(image:DecorationImage(image: AssetImage('assets/newspaper-removebg-preview.png'))),),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AnimatedTyping(
-                text: 'News Time',
-                duration: Duration(seconds: 3,),
+                text: 'News Time ...',
+                duration: Duration(seconds: 1,),
                 style: TextStyle(
                   fontWeight:FontWeight.w900,
                   color: Theme.of(context).colorScheme.tertiary,
@@ -40,9 +41,9 @@ class _Splash_ScreenState extends State<Splash_Screen> {
               ),
             ],
           ),
-          SpinKitThreeInOut(
-            color: Colors.black,
-            size: 40.0,
+          SpinKitSquareCircle(
+            color: Colors.white24,
+            size: 150.0,
           )
         ],
       ),),
