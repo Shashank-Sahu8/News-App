@@ -1,0 +1,30 @@
+import 'dart:convert';
+import 'package:news_app/model.dart';
+import 'package:http/http.dart'as http;
+class News{
+  String qii="business";
+  List<ArticleModel> news=[];
+
+  Future<void>getNews()async{
+    String url="https://newsapi.org/v2/top-headlines?country=us&category=$qii&apiKey=12319ce1938b42a5a1579e7e49db6b49";
+    var response=await http.get(Uri.parse(url));
+    var jsonData=jsonDecode(response.body);
+    if(jsonData['status']=='ok')
+      {
+        jsonData["articles"].forEach((element){
+          if(element["urlToImage"]!=null&&element['description']!=null&&element['title']!=null){
+            ArticleModel articleModel=ArticleModel(
+              title: element["title"],
+              description: element["description"],
+              author: element["author"],
+              url: element["url"],
+              urlimage: element["urlToImage"],
+              content: element["content"],
+              time: element["publishedAt"].toString().substring(0,10)
+            );
+            news.add(articleModel);
+          }
+        });
+      }
+  }
+}
