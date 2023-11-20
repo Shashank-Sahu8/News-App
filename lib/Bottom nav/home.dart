@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_loadingkit/flutter_animated_loadingkit.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:news_app/modell/model.dart';
@@ -12,6 +13,7 @@ import 'package:news_app/modell/more_slider.dart';
 import 'package:news_app/modell/news.dart';
 import 'package:news_app/modell/recomendations_model.dart';
 import 'package:news_app/searching/search.dart';
+import 'package:news_app/view_all.dart';
 import '../navbar.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -25,6 +27,7 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  // bool bm=false;
   List<ArticleModel> articles=[];
   bool loading=true;
   @override
@@ -45,6 +48,7 @@ class _homeState extends State<home> {
   }
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List items=[Colors.blue,Colors.pink,Colors.red];
+  bool bm=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +93,8 @@ class _homeState extends State<home> {
                   SizedBox(width: 4,),
                   Text("Breaking News",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                   Expanded(child: SizedBox(width:200 ,)),
-                  TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>morebreaking()));}, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
+                  TextButton(onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 9, title: "Breaking News")));}, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
                 ],
               ),
             ),
@@ -193,7 +198,14 @@ class _homeState extends State<home> {
                                       children: [
                                         Row(mainAxisAlignment: MainAxisAlignment.start,
                                           children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
-                                        Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
+                                        IconButton(onPressed: (){
+                                          setState(() {
+                                            bm=!bm;
+                                            bm==true?Fluttertoast.showToast(msg: 'Bookmark Added'):Fluttertoast.showToast(msg: 'Bookmark removed');
+
+                                          });
+                                        }, icon: bm==false?Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,):Icon(Icons.bookmark,color: Colors.blueGrey,))
+                                        // Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
                                       ],
                                     )
                                   ],

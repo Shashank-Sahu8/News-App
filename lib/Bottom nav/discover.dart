@@ -192,7 +192,15 @@ class _discoverState extends State<discover> {
 
                 if(current_page==1)
                   SingleChildScrollView(child: Container(child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
+                    children: [
+                      Row(mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 1, title: catlist[0],)));
+                          }, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,),)),
+                          SizedBox(width: 5,)
+                        ],),
+                      loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
                     ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -286,7 +294,15 @@ class _discoverState extends State<discover> {
 
                 else if(current_page==2)
                   SingleChildScrollView(child: Container(child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
+                    children: [
+                      Row(mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 2, title: catlist[1])));
+                          }, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,),)),
+                          SizedBox(width: 5,)
+                        ],),
+                      loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
                     ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -344,7 +360,7 @@ class _discoverState extends State<discover> {
                         Row(mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(onPressed: (){
-                            //Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(length: articles3.length, url: articles3, imgurl: imgurl, title: title, description: description, author: author, time: time)))
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 3,title: catlist[2])));
                           }, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,),)),
                           SizedBox(width: 5,)
                         ],),
@@ -401,7 +417,15 @@ class _discoverState extends State<discover> {
                     ),),)
                   else if(current_page==4)
                       SingleChildScrollView(child: Container(child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
+                        children: [
+                          Row(mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 4,title: catlist[3])));
+                              }, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,),)),
+                              SizedBox(width: 5,)
+                            ],),
+                          loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -454,7 +478,15 @@ class _discoverState extends State<discover> {
                       ),),)
                     else if(current_page==5)
                         SingleChildScrollView(child: Container(child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
+                          children: [
+                            Row(mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 5,title: catlist[4])));
+                                }, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,),)),
+                                SizedBox(width: 5,)
+                              ],),
+                            loading==true?Center(child: CircularProgressIndicator(color: Colors.blueGrey,),):
                           ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,

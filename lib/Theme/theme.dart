@@ -16,10 +16,10 @@ class Themeclass {
   static ThemeData dark = ThemeData(
       brightness: Brightness.dark,
       colorScheme: ColorScheme.dark(
-          background: Color(0xff262626),
+          background: Color(0xff353535),
           primary:Color(0xff1a1a1a),
           onPrimaryContainer: Colors.white,//text color
-          secondary:Color(0xff353535),
+          secondary:Color(0xff262626),
           onSecondaryContainer: Colors.white24,
            tertiary: Color(0xff633e9e)
       ),
