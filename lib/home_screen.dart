@@ -10,6 +10,7 @@ import 'package:news_app/Theme/themeprovider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
+import 'auth/if_login.dart';
 import 'notifications.dart';
 
 
@@ -27,7 +28,7 @@ class _home_pageState extends State<home_page> {
     return [
       home(),
       discover(),
-      bookmark(),
+      islogein(),
       accounts(),
     ];
   }

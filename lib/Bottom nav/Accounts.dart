@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../Theme/themeprovider.dart';
 
@@ -14,6 +17,43 @@ class accounts extends StatefulWidget {
 }
 
 class _accountsState extends State<accounts> {
+
+  final FirebaseAuth _auth=FirebaseAuth.instance;
+  getpp()
+  {
+    if(_auth.currentUser?.photoURL!=null)
+    {
+      return NetworkImage(_auth.currentUser!.photoURL.toString());
+    }
+    else
+    {
+      return AssetImage('assets/per-removebg-preview.png');
+    }
+  }
+
+  getname()
+  {
+    if(_auth.currentUser?.displayName!=null)
+    {
+      return Text(_auth.currentUser!.displayName.toString(),style: TextStyle(color:Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.w600,fontSize: 21));
+    }
+    else
+    {
+      return Text("No Name",style: TextStyle(color:Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.w600,fontSize: 21,));
+    }
+  }
+  getemail()
+  {
+    if(_auth.currentUser?.email!=null)
+    {
+      return Text(_auth.currentUser!.email.toString(),style: TextStyle(color: Colors.blueGrey,fontSize: 17));
+    }
+    else
+    {
+      return Text("Invalid email",style: TextStyle(color: Colors.blueGrey,fontSize: 17));
+    }
+  }
+
   bool status=false;
   @override
   Widget build(BuildContext context) {
@@ -32,10 +72,12 @@ class _accountsState extends State<accounts> {
                 CircleAvatar(
                     radius: 50,
                     backgroundColor:Theme.of(context).colorScheme.primary,
-                    backgroundImage: AssetImage('assets/per-removebg-preview.png'),
+                    backgroundImage: getpp(),
+                  //child: Image(image: NetworkImage(getpp()),),
                 ),
                 SizedBox(height: 5,),
-                Text("Name",style: TextStyle(fontSize: 18,color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.w500),)
+                getname()
+                //Text(getname().toString(),style: TextStyle(fontSize: 18,color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.w500),)
               ],),),
             ),
             SizedBox(height: 10,),
@@ -43,7 +85,8 @@ class _accountsState extends State<accounts> {
               SizedBox(width: 20,),
               CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.mail_outline_outlined,color: Colors.blueGrey,)),
               SizedBox(width: 20,),
-              Text("Bookmark",style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onPrimaryContainer),)
+              getemail()
+             // Text(getemail().toString(),style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onPrimaryContainer),)
             ],),
             SizedBox(height: 5,),
             Divider(),
@@ -64,7 +107,12 @@ class _accountsState extends State<accounts> {
             Divider(),
             SizedBox(height: 5,),
             InkWell(
-              onTap: (){},
+              onTap: (){_auth.signOut();
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.success,
+                text: 'Logged Out',
+              );},
               child: Row(children: [
                 SizedBox(width: 20,),
                 CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.logout,color: Colors.blueGrey,)),
