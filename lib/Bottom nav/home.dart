@@ -6,13 +6,17 @@ import 'package:flutter_animated_loadingkit/flutter_animated_loadingkit.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:news_app/model.dart';
-import 'package:news_app/news.dart';
-import 'package:news_app/recomendations_model.dart';
+import 'package:news_app/modell/model.dart';
+import 'package:news_app/modell/more%20recomendations.dart';
+import 'package:news_app/modell/more_slider.dart';
+import 'package:news_app/modell/news.dart';
+import 'package:news_app/modell/recomendations_model.dart';
+import 'package:news_app/searching/search.dart';
 import '../navbar.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '../web view.dart';
+import '../carousel/slider data.dart';
+import '../modell/web view.dart';
 class home extends StatefulWidget {
   const home({super.key});
 
@@ -21,18 +25,19 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-
+  String uu="us";
   List<ArticleModel> articles=[];
   bool loading=true;
-
   @override
   void initState(){
     getNews();
+    getslidernews();
     super.initState();
   }
 
   getNews()async{
-    News newsclass=News();
+    loading=true;
+    News newsclass=News(qii: uu);
     await newsclass.getNews();
     articles=newsclass.news;
     setState(() {
@@ -40,7 +45,7 @@ class _homeState extends State<home> {
     });
   }
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final List items=[Colors.blue,Colors.pink,Colors.red]
+  final List items=[Colors.blue,Colors.pink,Colors.red];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +73,7 @@ class _homeState extends State<home> {
         ],),
         backgroundColor: Theme.of(context).colorScheme.background,
         actions: [
-          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){}, icon: Icon(Icons.search_rounded,color: Colors.blueGrey,))),
+          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>search()));}, icon: Icon(Icons.search_rounded,color: Colors.blueGrey,))),
           SizedBox(width: 6,),
           CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){}, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
           SizedBox(width: 10,),
@@ -81,25 +86,75 @@ class _homeState extends State<home> {
               padding: const EdgeInsets.only(left: 12.0,right: 12.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text("l",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.w600,fontSize: 30),),
+                  SizedBox(width: 4,),
                   Text("Breaking News",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                  TextButton(onPressed: (){}, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
+                  Expanded(child: SizedBox(width:200 ,)),
+                  TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>morebreaking()));}, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
                 ],
               ),
             ),
 
-            CarouselSlider(items: items.map((item){
-              return Builder
-            }),options: ,
 
+            CarouselSlider.builder(
+              itemCount: slid.length,
+              options: CarouselOptions(
+                  height: 230,
+                  enlargeCenterPage: true,
+                  enlargeStrategy:CenterPageEnlargeStrategy.height,
+                  autoPlay: true,
+
+
+              ),
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final res= slid[index].urlimage;
+                final res1=slid[index].title;
+                final res2=slid[index].url;
+                return InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>web_view(url: res2!)));
+                    },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                image:DecorationImage(image: NetworkImage(res!),fit: BoxFit.cover,),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            // child: Image(image: NetworkImage(image),fit: BoxFit.cover,),
+                          ),
+                          Container(height: 70,width: 1000,
+                            margin: EdgeInsets.only(top: 160),
+                            decoration: BoxDecoration(
+                                color: Colors.black26,
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight:Radius.circular(10))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(res1!.length>35?res1!.substring(0,35)+"...":res1!,style: TextStyle(fontSize: 16,fontWeight:FontWeight.w400,color: Colors.white ),),
+                            ),
+                          )
+
+                        ]
+                    ),
+                  ),
+                );
+              },
             ),
 
+            SizedBox(height: 10,),
 
             Padding(
               padding: const EdgeInsets.only(left: 12.0,right: 12.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Row(mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Text("l",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.w600,fontSize: 30),),
+                  SizedBox(width: 4,),
                   Text("Recomendations",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                  TextButton(onPressed: (){}, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
+                  Expanded(child: SizedBox(width:200 ,)),
+                  TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>morerecomendations()));}, child: Text("View all",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
                 ],
               ),
             ),
@@ -107,7 +162,7 @@ class _homeState extends State<home> {
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: articles.length,
+                itemCount: 8,
                 itemBuilder: (context,index)
                 {
                   return InkWell(
@@ -162,6 +217,38 @@ class _homeState extends State<home> {
   }
 }
 
+//
+// Widget buildimg(String image,int index,String name,String url)=>Container(
+//   child: InkWell(
+//     onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>web_view(url: url)));},
+//     child: Padding(
+//       padding: const EdgeInsets.all(5.0),
+//       child: Stack(
+//         children: [
+//           Container(
+//             decoration: BoxDecoration(
+//                 image:DecorationImage(image: NetworkImage(image),fit: BoxFit.cover,),
+//                 borderRadius: BorderRadius.circular(10)
+//             ),
+//            // child: Image(image: NetworkImage(image),fit: BoxFit.cover,),
+//           ),
+//           Container(height: 70,width: 1000,
+//             margin: EdgeInsets.only(top: 130),
+//             decoration: BoxDecoration(
+//                 color: Colors.black26,
+//                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight:Radius.circular(10))
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.all(8.0),
+//               child: Text(name.length>35?name.substring(0,35)+"...":name,style: TextStyle(fontSize: 16,fontWeight:FontWeight.w400,color: Colors.white ),),
+//             ),
+//           )
+//
+//     ]
+//       ),
+//     ),
+//   ),
+// );
 
 
 

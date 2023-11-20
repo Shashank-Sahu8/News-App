@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import '../search.dart';
+import '../searching/search throw.dart';
+import '../searching/search.dart';
 
 class discover extends StatefulWidget {
   const discover({super.key});
@@ -42,7 +43,7 @@ class _discoverState extends State<discover> {
               Padding(
                 padding: const EdgeInsets.only(left: 24,right: 24),
                 child: InkWell(
-                  onTap: (){showSearch(context: context, delegate: Search());},
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>search()));},
                   child: Container(
                     height: 44,
                     width: 700,decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary,borderRadius: BorderRadius.circular(30)),
@@ -54,7 +55,10 @@ class _discoverState extends State<discover> {
                     ],),
                   ),
                 ),
-              )
+              ),
+
+
+
             ],),
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/web%20view.dart';
+import 'package:news_app/modell/web%20view.dart';
 
 class recomwidget extends StatelessWidget {
   String img,title,des,url,time,author;
