@@ -24,7 +24,7 @@ class _morerecomendationsState extends State<morerecomendations> {
     super.initState();
   }
   getNews()async{
-    News newsclass=News(qii: 'uu');
+    News newsclass=News(qii: 'business');
     await newsclass.getNews();
     articles=newsclass.news;
     setState(() {

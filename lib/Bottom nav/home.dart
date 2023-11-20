@@ -25,7 +25,6 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  String uu="us";
   List<ArticleModel> articles=[];
   bool loading=true;
   @override
@@ -37,7 +36,7 @@ class _homeState extends State<home> {
 
   getNews()async{
     loading=true;
-    News newsclass=News(qii: uu);
+    News newsclass=News(qii: "business");
     await newsclass.getNews();
     articles=newsclass.news;
     setState(() {
@@ -128,7 +127,7 @@ class _homeState extends State<home> {
                           Container(height: 70,width: 1000,
                             margin: EdgeInsets.only(top: 160),
                             decoration: BoxDecoration(
-                                color: Colors.black26,
+                                color: Colors.black54,
                                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight:Radius.circular(10))
                             ),
                             child: Padding(
