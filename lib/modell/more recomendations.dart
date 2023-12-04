@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:news_app/modell/web%20view.dart';
 
+import '../auth/if_login.dart';
 import '../carousel/slider data.dart';
 import 'model.dart';
 import 'news.dart';
@@ -40,7 +41,7 @@ class _morerecomendationsState extends State<morerecomendations> {
         automaticallyImplyLeading: true,
         iconTheme:IconThemeData(color: Colors.blueGrey),
         actions: [
-          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){}, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
+          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>islogein()));}, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
           SizedBox(width: 5,)
         ],
         title: Text("Recomendations",style: TextStyle(fontSize: 23,fontWeight:FontWeight.w500,color: Theme.of(context).colorScheme.onPrimaryContainer),),

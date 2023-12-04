@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import 'modell/model.dart';
-import 'modell/news.dart';
-import 'modell/web view.dart';
+import '../auth/if_login.dart';
+import 'model.dart';
+import 'news.dart';
+import 'web view.dart';
 
 class view_all extends StatefulWidget {
   int ind;String title;
@@ -12,7 +16,10 @@ class view_all extends StatefulWidget {
   @override
   State<view_all> createState() => _view_allState();
 }
-
+final _auth=FirebaseAuth.instance;
+var time=DateTime.now();
+String uid=_auth.currentUser!.uid;
+List<String> temp=[];
 class _view_allState extends State<view_all> {
 
   List<ArticleModel> article=[];
@@ -103,7 +110,7 @@ class _view_allState extends State<view_all> {
         automaticallyImplyLeading: true,
         iconTheme:IconThemeData(color: Colors.blueGrey),
         actions: [
-          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){}, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
+          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>islogein()));}, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
           SizedBox(width: 5,)
         ],
         title: Text(widget.title,style: TextStyle(fontSize: 23,fontWeight:FontWeight.w500,color: Theme.of(context).colorScheme.onPrimaryContainer),),
@@ -159,7 +166,23 @@ class _view_allState extends State<view_all> {
                                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(article[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                      Text(article[index].author.toString().length<8?"~${article[index].author}":"~${article[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
+                                      IconButton(onPressed: () async {
+                                        print(uid.toString());
+                                        var tt=DateTime.now();
+                                        String ss=article[index].title.toString();
+                                        await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                          Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                        });}else{setState(() {
+                                          Fluttertoast.showToast(msg: 'Bookmark Added');
+                                        });}});
+                                        await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':article[index].title.toString(),'url':article[index].url.toString(),'urlimage':article[index].urlimage.toString(),'time':article[index].time.toString()});
+                                        setState(() {
+                                          if(temp.contains(article[index].title.toString())==false)
+                                          {
+                                            temp.add(article[index].title.toString());
+                                          }
+                                        });
+                                      }, icon: temp.contains(article[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
                                     ],
                                   ),
                                 )
@@ -186,7 +209,7 @@ class _view_allState extends State<view_all> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12.0,right: 12.0,top:12.0,bottom: 6),
                     child: Card(
-                      elevation: 1,
+                      elevation: 0.4,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       child: SizedBox(
                         height: 250.0,

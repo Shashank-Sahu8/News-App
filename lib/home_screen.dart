@@ -34,6 +34,7 @@ class _home_pageState extends State<home_page> {
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
+    initState(){};
     return [
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.home),

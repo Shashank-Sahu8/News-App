@@ -1,19 +1,23 @@
 import 'dart:convert';
 import 'package:animated_typing/animated_typing.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_loadingkit/flutter_animated_loadingkit.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:news_app/auth/if_login.dart';
+import 'package:news_app/auth/login.dart';
 import 'package:news_app/modell/model.dart';
 import 'package:news_app/modell/more%20recomendations.dart';
 import 'package:news_app/modell/more_slider.dart';
 import 'package:news_app/modell/news.dart';
 import 'package:news_app/modell/recomendations_model.dart';
 import 'package:news_app/searching/search.dart';
-import 'package:news_app/view_all.dart';
+import 'package:news_app/modell/view_all.dart';
 import '../navbar.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -25,6 +29,9 @@ class home extends StatefulWidget {
   @override
   State<home> createState() => _homeState();
 }
+final _auth=FirebaseAuth.instance;
+var time=DateTime.now();
+String uid=_auth.currentUser!.uid;
 
 class _homeState extends State<home> {
   // bool bm=false;
@@ -49,6 +56,8 @@ class _homeState extends State<home> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List items=[Colors.blue,Colors.pink,Colors.red];
   bool bm=false;
+  List<String> temp=[];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,11 +87,13 @@ class _homeState extends State<home> {
         actions: [
           CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>search()));}, icon: Icon(Icons.search_rounded,color: Colors.blueGrey,))),
           SizedBox(width: 6,),
-          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){}, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
+          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>islogein()));
+            }, icon: Icon(FontAwesome.bell,color: Colors.blueGrey,))),
           SizedBox(width: 10,),
         ],
       ),
-      body: loading?Center(child: CircularProgressIndicator(color: Colors.blueGrey),):SingleChildScrollView(scrollDirection: Axis.vertical,
+      body:  loading?Center(child: CircularProgressIndicator(color: Colors.blueGrey),):SingleChildScrollView(scrollDirection: Axis.vertical,
         child: Container(child:Column(
           children: [
             Padding(
@@ -186,25 +197,35 @@ class _homeState extends State<home> {
                             children: [
                               Container(
                                 height: 90,width: 100,
-                                decoration: BoxDecoration(color: Theme.of(context).colorScheme.background,borderRadius: BorderRadius.circular(7),image: DecorationImage(image: NetworkImage(articles[index].urlimage.toString()),fit: BoxFit.fill)),
+                                decoration: BoxDecoration(color: Theme.of(context).colorScheme.background,borderRadius: BorderRadius.circular(7),image: DecorationImage(image: NetworkImage(articles[index].urlimage.toString()),fit: BoxFit.cover)),
                               ),
                               SizedBox(width: 10,),
                               Expanded(child: Container(
                                 height: 100,width: 220,
                                 child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Expanded(child: Text(articles[index].title.toString().length>50?articles[index].title.toString().substring(0,50)+"...":articles[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),)),
+                                    Expanded(child: Text(articles[index].title.toString().length>50?articles[index].title.toString().substring(0,50)+"...":articles[index].title.toString(),style: TextStyle(fontSize: 17,fontWeight:FontWeight.w400 ),)),
                                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
-                                        IconButton(onPressed: (){
+                                          children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,size: 18,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
+                                        IconButton(onPressed: () async {
+                                          print(uid.toString());
+                                          var tt=DateTime.now();
+                                          String ss=articles[index].title.toString();
+                                          await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                            Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                          });}else{setState(() {
+                                            Fluttertoast.showToast(msg: 'Bookmark Added');
+                                          });}});
+                                          await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
                                           setState(() {
-                                            bm=!bm;
-                                            bm==true?Fluttertoast.showToast(msg: 'Bookmark Added'):Fluttertoast.showToast(msg: 'Bookmark removed');
-
+                                            if(temp.contains(articles[index].title.toString())==false)
+                                            {
+                                              temp.add(articles[index].title.toString());
+                                            }
                                           });
-                                        }, icon: bm==false?Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,):Icon(Icons.bookmark,color: Colors.blueGrey,))
+                                        }, icon: temp.contains(articles[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
                                         // Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
                                       ],
                                     )

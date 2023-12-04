@@ -28,7 +28,7 @@ class _signupState extends State<signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffeebe6),
+      backgroundColor:Theme.of(context).colorScheme.background,
       extendBodyBehindAppBar: true,
       body: Container(
         child: SingleChildScrollView(
@@ -101,11 +101,17 @@ class _signupState extends State<signup> {
                         backgroundColor: Color(0xff03002e),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))) ,
 
                     onPressed: () {
-                      if(passwordcontroller!=confirmpasswordcontroller)
-                      {
-                        Future.error(Text("Password Incorrect"));
-                      }
+                      // if(passwordcontroller!=confirmpasswordcontroller)
+                      // {
+                      //   Future.error(Text("Password Incorrect"));
+                      // }
                       if (formfield.currentState!.validate()) {
+                        // if(passwordcontroller!=confirmpasswordcontroller)
+                        //   {
+                        //     return utils().toastmess("Password not matched");
+                        //   }
+                        // else
+                        //   {
                         showDialog(context: context, builder: (context) {
                           return const Center(
                             child: CircularProgressIndicator(),);
@@ -119,10 +125,10 @@ class _signupState extends State<signup> {
                           // LocalNotifications.showSimpleNotification(title: 'To_Do',body: 'Successful Log In',payload: 'hello');
                         }).onError((error, stackTrace) {
                           utils().toastmess(error.toString());
-
                         });
                       }
-                    }
+                      }
+
                     , child: Container(height: 50,child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.login),SizedBox(width: 10,),Text("Sign up")],),)),
               ),
 
@@ -131,8 +137,8 @@ class _signupState extends State<signup> {
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have account?",style: TextStyle(fontSize: 15,color: Color(0xff03002e)),),
-                    TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>login()));}, child: Text("Login"))
+                    Text("Already have account?",style: TextStyle(fontSize: 15,color: Theme.of(context).colorScheme.onPrimaryContainer),),
+                    TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>login()));}, child: Text("Login",style: TextStyle(color:  Theme.of(context).colorScheme.tertiary),))
                   ],
                 ),
               ),

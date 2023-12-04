@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:news_app/Bottom%20nav/bookmark.dart';
+import 'package:open_share_plus/open.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'Bottom nav/Accounts.dart';
+import 'auth/if_login.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -31,7 +37,7 @@ class _NavBarState extends State<NavBar> {
           ),
           SizedBox(height: 10,),
           InkWell(
-            onTap: (){},
+            onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>islogein()));},
             child: Row(children: [
               SizedBox(width: 20,),
               CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.bookmark,color: Colors.blueGrey,)),
@@ -43,7 +49,7 @@ class _NavBarState extends State<NavBar> {
           Divider(),
           SizedBox(height: 5,),
           InkWell(
-            onTap: (){},
+            onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>accounts()));},
             child: Row(children: [
               SizedBox(width: 20,),
               CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.mail_outline_outlined,color: Colors.blueGrey,)),
@@ -55,7 +61,21 @@ class _NavBarState extends State<NavBar> {
           Divider(),
           SizedBox(height: 5,),
           InkWell(
-            onTap: (){},
+            onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>accounts()));},
+            child: Row(children: [
+              SizedBox(width: 20,),
+              CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.settings,color: Colors.blueGrey,)),
+              SizedBox(width: 20,),
+              Text("Settings",style: TextStyle(fontSize: 18,color: Theme.of(context).colorScheme.onPrimaryContainer),)
+            ],),
+          ),
+          SizedBox(height: 5,),
+          Divider(),
+          SizedBox(height: 5,),
+          InkWell(
+            onTap: (){
+              Open.mail(toAddress: "shashanksahu87070@gmail.com", subject: "email to the developer of News Time", body: "Thanks for this app");
+            },
             child: Row(children: [
               SizedBox(width: 20,),
               CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.bookmark,color: Colors.blueGrey,)),
@@ -67,7 +87,9 @@ class _NavBarState extends State<NavBar> {
           Divider(),
           SizedBox(height: 5,),
           InkWell(
-            onTap: (){},
+            onTap: (){
+              launch("https://www.facebook.com/");
+            },
             child: Row(children: [
               SizedBox(width: 20,),
               CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Bootstrap.facebook,color: Colors.blueGrey,)),
@@ -78,7 +100,9 @@ class _NavBarState extends State<NavBar> {
           SizedBox(height: 5,),
           Divider(),
           SizedBox(height: 5,),
-          InkWell(onTap: (){},
+          InkWell(onTap: (){
+            launch("https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D");
+          },
             child: Row(children: [
               SizedBox(width:20 ,),
               CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Bootstrap.twitter,color: Colors.blueGrey,)),

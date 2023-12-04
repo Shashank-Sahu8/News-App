@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,14 +8,18 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:news_app/auth/forgetpassword.dart';
 import 'package:news_app/auth/signup.dart';
 class login extends StatefulWidget {
+
   const login({super.key});
 
   @override
   State<login> createState() => _loginState();
 }
+bool obtext=true;
+final  _auth = FirebaseAuth.instance;
+String? uid=_auth.currentUser?.uid;
 
 class _loginState extends State<login> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  var time=DateTime.now();
   bool loading=false;
   final _formfield=GlobalKey<FormState>();
   final emailcontroller=TextEditingController();
@@ -26,7 +32,6 @@ class _loginState extends State<login> {
     });
     await _auth.signInWithEmailAndPassword(email: emailcontroller.text, password: password.text.toString()).then((value){
       utils().toastmess("Login Successfully");
-      Navigator.pop(context);
       //LocalNotifications.showSimpleNotification(title: 'To_Do',body: 'Successful Log In',payload: 'hello');
       setState(() {
         loading=false ;
@@ -34,9 +39,25 @@ class _loginState extends State<login> {
       //Navigator.push(context, MaterialPageRoute(builder: (context)=>pagepage()));
       utils().toastmess(value.user!.email.toString());}).onError((error, stackTrace) {
       setState(() {
-        Navigator.pop(context);
         loading=false;
       });debugPrint(error.toString());utils().toastmess(error.toString());});
+  }
+  // updateuser()async{
+  //   print("new user");
+  //   utils().toastmess("doe");
+  // await FirebaseFirestore.instance.collection('bookmark').doc(uid).collection("marks").doc('user').update({'user_mail':emailcontroller.text.toString()});
+  // utils().toastmess("updated user");
+  // }
+  adduser()async{utils().toastmess("doe");
+    print("no user");
+    await FirebaseFirestore.instance.collection('bookmark').doc(uid).collection("marks").doc('user').set({'user_mail':emailcontroller.text.toString()});
+    utils().toastmess("new user");
+  }
+
+  ad()async{utils().toastmess("doe");
+  print("no user");
+  await FirebaseFirestore.instance.collection('test').doc(uid).set({'ClassName':emailcontroller.text.toString(),'ClassId':password.text.toString()});
+  utils().toastmess("new user");
   }
 
   @override
@@ -78,12 +99,16 @@ class _loginState extends State<login> {
                         TextFormField(
                           keyboardType: TextInputType.text,
                           cursorColor: Theme.of(context).colorScheme.tertiary,
-                          obscureText: true,
+                          obscureText: obtext,
                           controller: password,
                           decoration: InputDecoration(
                               hintText: "Password",
                               helperText: "Name@123...",
-                              icon: Icon(Bootstrap.key,color: Colors.blueGrey,)),
+                              icon: IconButton(icon:Icon(obtext!=false?Bootstrap.eye_fill:Bootstrap.eye_slash,color: Colors.blueGrey,) ,onPressed: (){setState(() {
+                                setState(() {
+                                  obtext=!obtext;
+                                });
+                              });},)),
                           validator: (value){if(value!.isEmpty){return 'Enter password';}return null;},
                         )
                       ],
@@ -100,11 +125,22 @@ class _loginState extends State<login> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left:20.0,top: 10,right: 20.0,bottom: 20.0),
-                child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xff03002e),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))) ,
+                child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))) ,
 
-                    onPressed: (){
+                    onPressed: () {
+                  ad();
                       if(_formfield.currentState!.validate()){
                         login();
+                        //adduser();
+                        // final snapshot= FirebaseFirestore.instance.doc(uid.toString()).collection('marks').doc('user').collection('user_mail').get();
+                        // if(snapshot.toString().isEmpty)
+                        //   {
+                        //     adduser();
+                        //   }
+                        // else
+                        //   {
+                        //     updateuser();
+                        //   }
                       }
                     }
 
@@ -133,7 +169,7 @@ class utils{
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[700],
-        textColor: Colors.orange,
+        textColor:  Color(0xff733E9E),
         fontSize: 16.0
     );
   }

@@ -66,7 +66,7 @@ class _forgetpassState extends State<forgetpass> {
                 child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xff03002e),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))) ,
 
                     onPressed: (){
-                      _auth.sendPasswordResetEmail(email: emailcontroller.text.toString()).then((value){utils().toastmess("We have send you email to reset password");}).onError((error, stackTrace){utils().toastmess(error.toString());});
+                      _auth.sendPasswordResetEmail(email: emailcontroller.text.toString()).then((value){utils().toastmess("We have send you email to reset password");Navigator.pop(context);}).onError((error, stackTrace){utils().toastmess(error.toString());});
                     }
 
                     , child: Expanded(child: Container(height: 50,child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.ads_click),SizedBox(width: 10,),Text("Send email")],),),)),

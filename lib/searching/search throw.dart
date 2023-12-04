@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:news_app/searching/search%20data.dart';
 import '../modell/model.dart';
 import '../modell/news.dart';
@@ -11,7 +14,10 @@ class th extends StatefulWidget {
   @override
   State<th> createState() => _thState();
 }
-
+final _auth=FirebaseAuth.instance;
+var time=DateTime.now();
+String uid=_auth.currentUser!.uid;
+List<String> temp=[];
 class _thState extends State<th> {
 
   List<ArticleModel> articles=[];
@@ -82,7 +88,23 @@ class _thState extends State<th> {
                                       children: [
                                         Row(mainAxisAlignment: MainAxisAlignment.start,
                                           children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
-                                        Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
+                                        IconButton(onPressed: () async {
+                                          print(uid.toString());
+                                          var tt=DateTime.now();
+                                          String ss=articles[index].title.toString();
+                                          await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                            Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                          });}else{setState(() {
+                                            Fluttertoast.showToast(msg: 'Bookmark Added');
+                                          });}});
+                                          await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
+                                          setState(() {
+                                            if(temp.contains(articles[index].title.toString())==false)
+                                            {
+                                              temp.add(articles[index].title.toString());
+                                            }
+                                          });
+                                        }, icon: temp.contains(articles[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
                                       ],
                                     )
                                   ],

@@ -58,11 +58,14 @@ dependencies:
   firebase_auth: ^4.14.0
   firebase_analytics: ^10.7.0
   firebase_storage: ^11.5.1
-  cloud_firestore: ^4.13.1
+  cloud_firestore: ^4.13.2
   google_sign_in: ^6.1.6
   intl: ^0.18.1
   firebase_helpers: ^0.6.1
   quickalert: ^1.0.2
+  url_launcher: ^6.2.1
+  open_share_plus: ^1.2.0
+  connectivity_plus: ^5.0.2
 
 dev_dependencies:
   flutter_test:

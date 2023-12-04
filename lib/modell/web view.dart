@@ -14,7 +14,7 @@ class _web_viewState extends State<web_view> {
   @override
   Widget build(BuildContext context) {
     WebViewController controller=WebViewController()
-      ..setJavaScriptMode((JavaScriptMode.unrestricted))
+      ..setJavaScriptMode((JavaScriptMode.unrestricted),)
       ..loadRequest(Uri.parse(widget.url));
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +33,8 @@ class _web_viewState extends State<web_view> {
           SizedBox(width: 10,),
         ],
       ),
-      body: SafeArea(child: WebViewWidget(controller: controller,)),
+      body: SafeArea(
+          child:WebViewWidget(controller: controller,)),
     );
   }
 }
