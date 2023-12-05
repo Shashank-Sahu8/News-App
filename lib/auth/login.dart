@@ -54,7 +54,7 @@ class _loginState extends State<login> {
     utils().toastmess("new user");
   }
 
-  ad()async{Fluttertoast.showToast(msg: "Successful Login");
+  ad()async{
   print("no user");
   await FirebaseFirestore.instance.collection('test').doc(uid).set({'ClassName':emailcontroller.text.toString(),'ClassId':password.text.toString()});
   utils().toastmess("new user");
