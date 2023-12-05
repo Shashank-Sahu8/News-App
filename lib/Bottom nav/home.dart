@@ -265,7 +265,14 @@ class _homeState extends State<home> {
                     ),
                   ) ;
                 }
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>morerecomendations()));}, icon: Icon(FontAwesome.arrows_rotate))],),
+            ),
+            SizedBox(height: 20,)
 
 
           ],

@@ -293,7 +293,14 @@ class _discoverState extends State<discover> {
                             ),
                           ) ;
                         }
-                    )
+                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 1, title: catlist[0],)));}, icon: Icon(FontAwesome.arrows_rotate))],),
+                      ),
+                      SizedBox(height: 20,)
                     ],
                   ),),)
                     // SingleChildScrollView(child: Container(child: Column(
@@ -431,7 +438,14 @@ class _discoverState extends State<discover> {
                             ),
                           ) ;
                         }
-                    )
+                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 2, title: catlist[1],)));}, icon: Icon(FontAwesome.arrows_rotate))],),
+                      ),
+                      SizedBox(height: 20,)
                     ],
                   ),),)
                 else if(current_page==3)
@@ -529,7 +543,14 @@ class _discoverState extends State<discover> {
                               ),
                             ) ;
                           }
-                      )
+                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 3, title: catlist[2],)));}, icon: Icon(FontAwesome.arrows_rotate))],),
+                        ),
+                        SizedBox(height: 20,)
                       ],
                     ),),)
                   else if(current_page==4)
@@ -626,7 +647,14 @@ class _discoverState extends State<discover> {
                                 ),
                               ) ;
                             }
-                        )
+                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 4, title: catlist[3],)));}, icon: Icon(FontAwesome.arrows_rotate))],),
+                          ),
+                          SizedBox(height: 20,)
                         ],
                       ),),)
                     else if(current_page==5)
@@ -723,7 +751,14 @@ class _discoverState extends State<discover> {
                                   ),
                                 ) ;
                               }
-                          )
+                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>view_all(ind: 5, title: catlist[4],)));}, icon: Icon(FontAwesome.arrows_rotate))],),
+                            ),
+                            SizedBox(height: 20,)
                           ],
                         ),),)
 

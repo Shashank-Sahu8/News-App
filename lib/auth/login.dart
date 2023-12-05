@@ -54,7 +54,7 @@ class _loginState extends State<login> {
     utils().toastmess("new user");
   }
 
-  ad()async{utils().toastmess("doe");
+  ad()async{Fluttertoast.showToast(msg: "Successful Login");
   print("no user");
   await FirebaseFirestore.instance.collection('test').doc(uid).set({'ClassName':emailcontroller.text.toString(),'ClassId':password.text.toString()});
   utils().toastmess("new user");
@@ -73,9 +73,9 @@ class _loginState extends State<login> {
             children: [
               SizedBox(height: 80,),
               Text("Login",textAlign: TextAlign.center,style: TextStyle(fontSize: 36,fontWeight: FontWeight.w700,color: Theme.of(context).colorScheme.onPrimaryContainer),),
-              SizedBox(height: 30,),
-              Container(height:120,child: Image.asset('assets/ioio-removebg-preview.png',fit: BoxFit.cover,)),
-              SizedBox(height: 40,),
+              SizedBox(height: 10,),
+              Container(height:170,child: Image.asset('assets/lologin_image-removebg-preview.png',fit: BoxFit.cover,)),
+              SizedBox(height: 10,),
               Form(
                   key: _formfield,
                   child: Padding(
@@ -149,7 +149,7 @@ class _loginState extends State<login> {
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Don't have account?",style: TextStyle(color: Colors.blueGrey),),
-                  TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>signup()));}, child: Text("Sign Up",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
+                  TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>signup()));}, child: Text("Create account",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),))
                 ],
               )
             ],
