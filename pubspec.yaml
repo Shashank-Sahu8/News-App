@@ -66,6 +66,7 @@ dependencies:
   url_launcher: ^6.2.1
   open_share_plus: ^1.2.0
   connectivity_plus: ^5.0.2
+  awesome_dialog: ^3.1.0
 
 dev_dependencies:
   flutter_test:

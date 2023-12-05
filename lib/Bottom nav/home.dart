@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:animated_typing/animated_typing.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_loadingkit/flutter_animated_loadingkit.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -206,29 +208,52 @@ class _homeState extends State<home> {
                                   children: [
                                     Text(articles[index].title.toString().length>50?articles[index].title.toString().substring(0,50)+"...":articles[index].title.toString(),style: TextStyle(fontSize: 17,fontWeight:FontWeight.w400 ),),
                                     Expanded(
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,size: 19,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
-                                          IconButton(onPressed: () async {
-                                            print(uid.toString());
-                                            var tt=DateTime.now();
-                                            String ss=articles[index].title.toString();
-                                            await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
-                                              Fluttertoast.showToast(msg: 'Already Bookmarked');
-                                            });}else{setState(() {
-                                              Fluttertoast.showToast(msg: 'Bookmark Added');
-                                            });}});
-                                            await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
-                                            setState(() {
-                                              if(temp.contains(articles[index].title.toString())==false)
-                                              {
-                                                temp.add(articles[index].title.toString());
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top:10.0),
+                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.watch_later_rounded,color: Colors.blueGrey,size: 19,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
+                                            IconButton(onPressed: ()  async {
+                                              if(FirebaseAuth.instance.currentUser == null)
+                                                {
+                                                 // showDialog(context: context, builder:(BuildContext){return AlertDialog(title: Text("Alert"),content:Text("You are not logged in") ,actions: [ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.tertiary),onPressed: (){   Navigator.push(context, MaterialPageRoute(builder: (context)=>login()));}, child: Text("Login"))],);});
+                                                  AwesomeDialog(
+                                                    context: context,
+                                                    dialogType: DialogType.infoReverse,
+                                                      animType: AnimType.rightSlide,
+                                                    title: "Alert",
+                                                    desc: "You are not logged in",
+                                                    btnCancelText: "Login",
+                                                    btnOkOnPress: (){},
+                                                      btnOkColor: Colors.redAccent,
+                                                      btnOkText: "It's ok",
+                                                    //btnCancel: Center(child: Text("Login"),),
+                                                    btnCancelColor: CupertinoColors.systemGreen,
+                                                    btnCancelOnPress: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>islogein()));}
+                                                  )..show();
+                                                }
+                                              else {
+                                                var tt=DateTime.now();
+                                                String ss=articles[index].title.toString();
+                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                  Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                                });}else{setState(() {
+                                                  Fluttertoast.showToast(msg: 'Bookmark Added');
+                                                });}});
+                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
+                                                setState(() {
+                                                  if(temp.contains(articles[index].title.toString())==false)
+                                                  {
+                                                    temp.add(articles[index].title.toString());
+                                                  }
+                                                });
                                               }
-                                            });
-                                          }, icon: temp.contains(articles[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
-                                          // Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                        ],
+                                            }, icon: temp.contains(articles[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                            // Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
+                                          ],
+                                        ),
                                       ),
                                     )
                                   ],

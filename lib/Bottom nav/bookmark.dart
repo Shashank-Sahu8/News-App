@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:news_app/auth/login.dart';
 
@@ -20,6 +21,13 @@ class _bookmarkState extends State<bookmark> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: CircleAvatar(backgroundColor:Theme.of(context).colorScheme.secondary ,child: Icon(Icons.delete_forever,color: Colors.blueGrey,)),
+          onPressed: (){
+            FirebaseFirestore.instance.collection('news').doc(uid).delete();
+            Fluttertoast.showToast(msg: 'All bookmark removed');
+          },
+        ),
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: true,
@@ -78,35 +86,22 @@ class _bookmarkState extends State<bookmark> {
                                     height: 90,
                                     child: Column(
                                       children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 8.0,left: 8,right: 8),
+                                          child: Text(docs[index]['title'].toString().length>50?docs[index]['title'].toString().substring(0,50)+"...":docs[index]['title'].toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                        ),
                                         Expanded(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(docs[index]['title'].toString().length>80?docs[index]['title'].toString().substring(0,80)+"...":docs[index]['title'].toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(docs[index]['time'].toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                              IconButton(onPressed: () async {
-                                                // print(uid.toString());
-                                                // var tt=DateTime.now();
-                                                // String ss=article[index].title.toString();
-                                                // await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
-                                                //   Fluttertoast.showToast(msg: 'Already Bookmarked');
-                                                // });}else{setState(() {
-                                                //   Fluttertoast.showToast(msg: 'Bookmark Added');
-                                                // });}});
-                                                // await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':article[index].title.toString(),'url':article[index].url.toString(),'urlimage':article[index].urlimage.toString(),'time':article[index].time.toString()});
-                                                // setState(() {
-                                                //   if(temp.contains(article[index].title.toString())==false)
-                                                //   {
-                                                //     temp.add(article[index].title.toString());
-                                                //   }
-                                                // });
-                                              }, icon:Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,))
-                                            ],
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,size: 19,),SizedBox(width: 4,),Text(docs[index]['time'].toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                                IconButton(onPressed: ()  {
+                                                  FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(docs[index]['title']).delete();
+                                                  Fluttertoast.showToast(msg: 'Bookmark removed');
+                                                }, icon:Icon(Icons.delete,color: Theme.of(context).colorScheme.tertiary,))
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],

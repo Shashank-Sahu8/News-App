@@ -1,4 +1,6 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -93,22 +95,41 @@ class _morerecomendationsState extends State<morerecomendations> {
                                             children: [
                                               Row(mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,size: 19,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
-                                              IconButton(onPressed: () async {
-                                                print(uid.toString());
-                                                var tt=DateTime.now();
-                                                String ss=articles[index].title.toString();
-                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
-                                                  Fluttertoast.showToast(msg: 'Already Bookmarked');
-                                                });}else{setState(() {
-                                                  Fluttertoast.showToast(msg: 'Bookmark Added');
-                                                });}});
-                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
-                                                setState(() {
-                                                  if(temp.contains(articles[index].title.toString())==false)
-                                                  {
-                                                    temp.add(articles[index].title.toString());
-                                                  }
-                                                });
+                                              IconButton(onPressed: ()  async {
+                                                if(FirebaseAuth.instance.currentUser == null)
+                                                {
+                                                  // showDialog(context: context, builder:(BuildContext){return AlertDialog(title: Text("Alert"),content:Text("You are not logged in") ,actions: [ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.tertiary),onPressed: (){   Navigator.push(context, MaterialPageRoute(builder: (context)=>login()));}, child: Text("Login"))],);});
+                                                  AwesomeDialog(
+                                                      context: context,
+                                                      dialogType: DialogType.infoReverse,
+                                                      animType: AnimType.rightSlide,
+                                                      title: "Alert",
+                                                      desc: "You are not logged in",
+                                                      btnCancelText: "Login",
+                                                      btnOkOnPress: (){},
+                                                      btnOkColor: Colors.redAccent,
+                                                      btnOkText: "It's ok",
+                                                      //btnCancel: Center(child: Text("Login"),),
+                                                      btnCancelColor: CupertinoColors.systemGreen,
+                                                      btnCancelOnPress: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>islogein()));}
+                                                  )..show();
+                                                }
+                                                else {
+                                                  var tt=DateTime.now();
+                                                  String ss=articles[index].title.toString();
+                                                  await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                    Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                                  });}else{setState(() {
+                                                    Fluttertoast.showToast(msg: 'Bookmark Added');
+                                                  });}});
+                                                  await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
+                                                  setState(() {
+                                                    if(temp.contains(articles[index].title.toString())==false)
+                                                    {
+                                                      temp.add(articles[index].title.toString());
+                                                    }
+                                                  });
+                                                }
                                               }, icon: temp.contains(articles[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
                                             ],
                                           ),

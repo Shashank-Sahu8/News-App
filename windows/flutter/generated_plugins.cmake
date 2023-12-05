@@ -9,6 +9,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_core
   firebase_storage
   open_share_plus
+  rive_common
   url_launcher_windows
 )
 
