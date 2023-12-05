@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:news_app/auth/login.dart';
+import 'package:news_app/editprofile.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -183,7 +184,9 @@ class _accountsState extends State<accounts> {
             Divider(),
             SizedBox(height: 5,),
             InkWell(
-              onTap: (){},
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>editprofile()));
+              },
               child: Row(children: [
                 SizedBox(width: 20,),
                 CircleAvatar(backgroundColor: Theme.of(context).colorScheme.secondary,child: Icon(Icons.edit,color: Colors.blueGrey,)),

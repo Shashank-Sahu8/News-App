@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:news_app/modell/web%20view.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/if_login.dart';
 import '../carousel/slider data.dart';
 import 'model.dart';
@@ -13,7 +15,10 @@ class morerecomendations extends StatefulWidget {
   @override
   State<morerecomendations> createState() => _morerecomendationsState();
 }
-
+final _auth=FirebaseAuth.instance;
+var time=DateTime.now();
+String uid=_auth.currentUser!.uid;
+List<String> temp=[];
 class _morerecomendationsState extends State<morerecomendations> {
 
   List<ArticleModel> articles=[];
@@ -82,13 +87,31 @@ class _morerecomendationsState extends State<morerecomendations> {
                                     height: 100,width: 220,
                                     child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Expanded(child: Text(articles[index].title.toString().length>50?articles[index].title.toString().substring(0,50)+"...":articles[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),)),
-                                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
-                                            Text(articles[index].author.toString().length<8?"~${articles[index].author}":"~${articles[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                          ],
+                                        Text(articles[index].title.toString().length>50?articles[index].title.toString().substring(0,50)+"...":articles[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                        Expanded(
+                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,size: 19,),SizedBox(width: 3,),Text(articles[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,),)],),
+                                              IconButton(onPressed: () async {
+                                                print(uid.toString());
+                                                var tt=DateTime.now();
+                                                String ss=articles[index].title.toString();
+                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                  Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                                });}else{setState(() {
+                                                  Fluttertoast.showToast(msg: 'Bookmark Added');
+                                                });}});
+                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles[index].title.toString(),'url':articles[index].url.toString(),'urlimage':articles[index].urlimage.toString(),'time':articles[index].time.toString()});
+                                                setState(() {
+                                                  if(temp.contains(articles[index].title.toString())==false)
+                                                  {
+                                                    temp.add(articles[index].title.toString());
+                                                  }
+                                                });
+                                              }, icon: temp.contains(articles[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),

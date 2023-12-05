@@ -155,35 +155,35 @@ class _view_allState extends State<view_all> {
                             height: 90,
                             child: Column(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
+                                  child: Text(article[index].title.toString().length>50?article[index].title.toString().substring(0,50)+"...":article[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(article[index].title.toString().length>50?article[index].title.toString().substring(0,50)+"...":article[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(article[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                      IconButton(onPressed: () async {
-                                        print(uid.toString());
-                                        var tt=DateTime.now();
-                                        String ss=article[index].title.toString();
-                                        await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
-                                          Fluttertoast.showToast(msg: 'Already Bookmarked');
-                                        });}else{setState(() {
-                                          Fluttertoast.showToast(msg: 'Bookmark Added');
-                                        });}});
-                                        await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':article[index].title.toString(),'url':article[index].url.toString(),'urlimage':article[index].urlimage.toString(),'time':article[index].time.toString()});
-                                        setState(() {
-                                          if(temp.contains(article[index].title.toString())==false)
-                                          {
-                                            temp.add(article[index].title.toString());
-                                          }
-                                        });
-                                      }, icon: temp.contains(article[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
-                                    ],
+                                    padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(article[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                        IconButton(onPressed: () async {
+                                          print(uid.toString());
+                                          var tt=DateTime.now();
+                                          String ss=article[index].title.toString();
+                                          await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                            Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                          });}else{setState(() {
+                                            Fluttertoast.showToast(msg: 'Bookmark Added');
+                                          });}});
+                                          await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':article[index].title.toString(),'url':article[index].url.toString(),'urlimage':article[index].urlimage.toString(),'time':article[index].time.toString()});
+                                          setState(() {
+                                            if(temp.contains(article[index].title.toString())==false)
+                                            {
+                                              temp.add(article[index].title.toString());
+                                            }
+                                          });
+                                        }, icon: temp.contains(article[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -231,19 +231,35 @@ class _view_allState extends State<view_all> {
                               height: 90,
                               child: Column(
                                 children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8,left: 8,right: 8),
+                                    child: Text(articles1[index].title.toString().length>50?articles1[index].title.toString().substring(0,50)+"...":articles1[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                  ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(articles1[index].title.toString().length>50?articles1[index].title.toString().substring(0,50)+"...":articles1[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles1[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                        Text(articles1[index].author.toString().length<8?"~${articles1[index].author}":"~${articles1[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                      ],
+                                      padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles1[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                          IconButton(onPressed: () async {
+                                            print(uid.toString());
+                                            var tt=DateTime.now();
+                                            String ss=articles1[index].title.toString();
+                                            await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                              Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                            });}else{setState(() {
+                                              Fluttertoast.showToast(msg: 'Bookmark Added');
+                                            });}});
+                                            await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles1[index].title.toString(),'url':articles1[index].url.toString(),'urlimage':articles1[index].urlimage.toString(),'time':articles1[index].time.toString()});
+                                            setState(() {
+                                              if(temp.contains(articles1[index].title.toString())==false)
+                                              {
+                                                temp.add(articles1[index].title.toString());
+                                              }
+                                            });
+                                          }, icon: temp.contains(articles1[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                        ],
+                                      ),
                                     ),
                                   )
                                 ],
@@ -291,19 +307,35 @@ class _view_allState extends State<view_all> {
                                 height: 90,
                                 child: Column(
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:8,left: 8,right: 8),
+                                      child: Text(articles2[index].title.toString().length>50?articles2[index].title.toString().substring(0,50)+"...":articles2[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                    ),
                                     Expanded(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(articles2[index].title.toString().length>50?articles2[index].title.toString().substring(0,50)+"...":articles2[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles2[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                          Text(articles2[index].author.toString().length<8?"~${articles2[index].author}":"~${articles2[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                        ],
+                                        padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles2[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                            IconButton(onPressed: () async {
+                                              print(uid.toString());
+                                              var tt=DateTime.now();
+                                              String ss=articles2[index].title.toString();
+                                              await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                              });}else{setState(() {
+                                                Fluttertoast.showToast(msg: 'Bookmark Added');
+                                              });}});
+                                              await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles2[index].title.toString(),'url':articles2[index].url.toString(),'urlimage':articles2[index].urlimage.toString(),'time':articles2[index].time.toString()});
+                                              setState(() {
+                                                if(temp.contains(articles2[index].title.toString())==false)
+                                                {
+                                                  temp.add(articles2[index].title.toString());
+                                                }
+                                              });
+                                            }, icon: temp.contains(articles2[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                          ],
+                                        ),
                                       ),
                                     )
                                   ],
@@ -351,19 +383,35 @@ class _view_allState extends State<view_all> {
                                   height: 90,
                                   child: Column(
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:8,left: 8,right: 8),
+                                        child: Text(articles3[index].title.toString().length>50?articles3[index].title.toString().substring(0,50)+"...":articles3[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                      ),
                                       Expanded(
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(articles3[index].title.toString().length>50?articles3[index].title.toString().substring(0,50)+"...":articles3[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles3[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                            Text(articles3[index].author.toString().length<8?"~${articles3[index].author}":"~${articles3[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                          ],
+                                          padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles3[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                              IconButton(onPressed: () async {
+                                                print(uid.toString());
+                                                var tt=DateTime.now();
+                                                String ss=articles3[index].title.toString();
+                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                  Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                                });}else{setState(() {
+                                                  Fluttertoast.showToast(msg: 'Bookmark Added');
+                                                });}});
+                                                await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles3[index].title.toString(),'url':articles3[index].url.toString(),'urlimage':articles3[index].urlimage.toString(),'time':articles3[index].time.toString()});
+                                                setState(() {
+                                                  if(temp.contains(articles3[index].title.toString())==false)
+                                                  {
+                                                    temp.add(articles3[index].title.toString());
+                                                  }
+                                                });
+                                              }, icon: temp.contains(articles3[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -411,19 +459,35 @@ class _view_allState extends State<view_all> {
                                     height: 90,
                                     child: Column(
                                       children: [
+                                        Padding(
+                                          padding:  EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                          child: Text(articles4[index].title.toString().length>50?articles4[index].title.toString().substring(0,50)+"...":articles4[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                        ),
                                         Expanded(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(articles4[index].title.toString().length>50?articles4[index].title.toString().substring(0,50)+"...":articles4[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles4[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                              Text(articles4[index].author.toString().length<8?"~${articles4[index].author}":"~${articles4[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                            ],
+                                            padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles4[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                                IconButton(onPressed: () async {
+                                                  print(uid.toString());
+                                                  var tt=DateTime.now();
+                                                  String ss=articles4[index].title.toString();
+                                                  await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                    Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                                  });}else{setState(() {
+                                                    Fluttertoast.showToast(msg: 'Bookmark Added');
+                                                  });}});
+                                                  await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles4[index].title.toString(),'url':articles4[index].url.toString(),'urlimage':articles4[index].urlimage.toString(),'time':articles4[index].time.toString()});
+                                                  setState(() {
+                                                    if(temp.contains(articles4[index].title.toString())==false)
+                                                    {
+                                                      temp.add(articles4[index].title.toString());
+                                                    }
+                                                  });
+                                                }, icon: temp.contains(articles4[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
@@ -471,19 +535,35 @@ class _view_allState extends State<view_all> {
                                       height: 90,
                                       child: Column(
                                         children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 8.0,right: 8,top: 8),
+                                            child: Text(articles5[index].title.toString().length>50?articles5[index].title.toString().substring(0,50)+"...":articles5[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
+                                          ),
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(articles5[index].title.toString().length>50?articles5[index].title.toString().substring(0,50)+"...":articles5[index].title.toString(),style: TextStyle(fontSize: 18,fontWeight:FontWeight.w400 ),),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
-                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles5[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
-                                                Text(articles5[index].author.toString().length<8?"~${articles5[index].author}":"~${articles5[index].author.toString().substring(0,8)+".."}",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer,fontSize: 14),)
-                                              ],
+                                              padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 8),
+                                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Row(children: [Icon(Icons.watch_later_rounded,color: Colors.blueGrey,),SizedBox(width: 4,),Text(articles5[index].time.toString(),style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),)],),
+                                                  IconButton(onPressed: () async {
+                                                    print(uid.toString());
+                                                    var tt=DateTime.now();
+                                                    String ss=articles5[index].title.toString();
+                                                    await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).get().then((snapshot){if(snapshot.exists){setState(() {
+                                                      Fluttertoast.showToast(msg: 'Already Bookmarked');
+                                                    });}else{setState(() {
+                                                      Fluttertoast.showToast(msg: 'Bookmark Added');
+                                                    });}});
+                                                    await FirebaseFirestore.instance.collection('news').doc(uid).collection('liked').doc(ss.toString()).set({'likedtime':tt.toString(),'title':articles5[index].title.toString(),'url':articles5[index].url.toString(),'urlimage':articles5[index].urlimage.toString(),'time':articles5[index].time.toString()});
+                                                    setState(() {
+                                                      if(temp.contains(articles5[index].title.toString())==false)
+                                                      {
+                                                        temp.add(articles5[index].title.toString());
+                                                      }
+                                                    });
+                                                  }, icon: temp.contains(articles5[index].title.toString())?Icon(Icons.bookmark,color: Theme.of(context).colorScheme.tertiary,):Icon(Icons.bookmark_border_outlined,color: Colors.blueGrey,))
+                                                ],
+                                              ),
                                             ),
                                           )
                                         ],
