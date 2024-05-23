@@ -2,6 +2,10 @@
 
 A flutter project NZ Times
 
+<a href="[url](https://drive.google.com/drive/folders/1fO8WvJczQBF0f0_ykchOTwklsxJmdAx8?usp=sharing)">Below is the drive link for the app...</a>
+
+     https://drive.google.com/drive/folders/1fO8WvJczQBF0f0_ykchOTwklsxJmdAx8?usp=sharing
+
 Some screens UI,
 ![NZ Times img1](https://github.com/Shashank-Sahu8/News-App/assets/133399781/b6ee0ba6-302f-4231-ba30-80a3d45ff72a)
 
